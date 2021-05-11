@@ -1,4 +1,10 @@
-import { ADD_TODO, REMOVE_TODO } from '../constants/types'
+import { ADD_TODO, LOAD_TODO, REMOVE_TODO } from '../constants/types'
+
+export const loadTodo = () => {
+	return {
+		type: LOAD_TODO,
+	}
+}
 
 export const addTodo = (body) => {
 	return {

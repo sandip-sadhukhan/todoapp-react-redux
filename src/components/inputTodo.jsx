@@ -14,8 +14,10 @@ const InputTodo = () => {
 	}
 
 	const addTodoHandler = () => {
-		dispatch(addTodo(todoInput))
-		setTodoInput('')
+		if (todoInput.trim() !== '') {
+			dispatch(addTodo(todoInput))
+			setTodoInput('')
+		}
 	}
 
 	return (
@@ -34,6 +36,7 @@ const InputTodo = () => {
 					<button
 						onClick={addTodoHandler}
 						className='btn btn-success my-2 btn-block'
+						disabled={todoInput.trim() === ''}
 					>
 						Add Task
 					</button>

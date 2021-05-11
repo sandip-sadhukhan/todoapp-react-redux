@@ -1,4 +1,4 @@
-import { ADD_TODO, REMOVE_TODO } from '../constants/types'
+import { ADD_TODO, LOAD_TODO, REMOVE_TODO } from '../constants/types'
 
 const initializeState = []
 
@@ -8,20 +8,39 @@ const generateId = () => {
 	return id
 }
 
+const saveDataToLocalStorage = (state) => {
+	localStorage.setItem('todos', JSON.stringify(state))
+}
+
+const getDataFromLocalStorage = () => {
+	if (localStorage.getItem('todos')) {
+		let getState = JSON.parse(localStorage.getItem('todos'))
+		return getState
+	} else {
+		localStorage.setItem('todos', JSON.stringify(initializeState))
+		return initializeState
+	}
+}
+
 const todoReducer = (state = initializeState, action) => {
 	let newState = [...state]
 	switch (action.type) {
+		case LOAD_TODO:
+			return getDataFromLocalStorage()
 		case ADD_TODO:
 			newState.push({
 				id: generateId(),
 				body: action.payload,
 			})
-			return newState
+			break
 		case REMOVE_TODO:
-			return newState.filter((todo) => todo.id !== action.payload)
+			newState = newState.filter((todo) => todo.id !== action.payload)
+			break
 		default:
 			return newState
 	}
+	saveDataToLocalStorage(newState)
+	return newState
 }
 
 export default todoReducer

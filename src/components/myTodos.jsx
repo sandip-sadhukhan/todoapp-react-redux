@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeTodo } from '../redux/actions/index'
+import { loadTodo, removeTodo } from '../redux/actions/index'
 
 const MyTodos = () => {
 	const todosState = useSelector((state) => state.todoReducer)
 	const dispatch = useDispatch()
+
+	useEffect(() => {
+		// load todos
+		dispatch(loadTodo())
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	const deleteButtonHandler = (id) => {
 		dispatch(removeTodo(id))
